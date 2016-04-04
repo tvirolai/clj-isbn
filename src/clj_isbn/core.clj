@@ -6,20 +6,20 @@
 
 (defn charToInt [c]
   (if (= c \X) 10
-  (Character/digit c 10)))
+    (Character/digit c 10)))
 
-(defn validate [isbn]
+(defn isbn10-checkdigit [isbn]
   (let [isbn (normalize isbn)]
-    (let [checkDigit (charToInt (nth isbn (- (count isbn) 1)))]
-      (loop [i 0 sum 0 pos (count isbn)]
-        (let [no (charToInt (int (nth isbn i)))]
-          (if (= pos 1)
-            ;(= (mod no 11) checkDigit)
-            (= (mod (+ sum (* checkDigit pos)) 11) 0)
-            (do
-              (println (str "index: " i " number: " (nth isbn i) " sum: " sum " current no: " no " " isbn " checkDigit: " checkDigit " pos: " pos))
-              (recur (inc i) (+ sum (* no pos)) (dec pos)))))))))
-
+    (loop [i 0 sum 0 pos (count isbn)]
+      (let [no (charToInt (int (nth isbn i)))]
+        (if (= pos 1)
+          (do
+            (let [digit (- 11 (mod sum 11))]
+              (cond
+                (> digit 10) 0
+                (= digit 10) "X"
+                :else digit)))
+          (recur (inc i) (+ sum (* no pos)) (dec pos)))))))
 
 (defn -main
   "A to-be ISBN code utility library for Clojure. A work in progress."
