@@ -2,6 +2,27 @@
   (:require [clojure.test :refer :all]
             [clj-isbn.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest conversion
+  (testing "ISBN-10 -> ISBN-13 conversion"
+   (is (= "9780306406157" (isbn10->isbn13 "0-306-40615-2")))))
+
+(deftest validation
+  (testing "A valid ISBN should pass"
+    (is (true? (is-valid? "9780306406157"))))
+  (testing "An invalid ISBN should not pass"
+    (is (false? (is-valid? "95Ö-23-2078-9"))))
+  (testing "An invalid ISBN should not pass"
+    (is (false? (is-valid? "951-23-2078-1")))))
+
+(deftest check-digits
+  (testing "ISBN-10 check digit generation"
+    (is (= 9 (isbn10-checkdigit "951-23-2078"))))
+  (testing "ISBN-13 check digit generation"
+    (is (= 2 (isbn13-checkdigit "978-951-98548-9"))))
+  (testing "ISBN-13 check digit generation"
+    (is (= 7 (isbn13-checkdigit "978-952-93-5178")))))
+
+(deftest hyphenation
+  (testing "ISBN hyphenation"
+    (is (= "978-952-93-5178-7" (hyphenate "9789529351787")))
+    (is (= "0-9796163-1-X" (hyphenate "097961631X")))))

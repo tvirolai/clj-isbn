@@ -1,4 +1,6 @@
 (ns clj-isbn.core
+  (require [clojure.xml :as xml]
+           [clojure.zip :as zip])
   (:gen-class))
 
 (defn- normalize [isbn]
@@ -20,6 +22,12 @@
   In: string, out: boolean"
   [isbn]
   (length-correct? (normalize isbn)))
+
+(defn- zip-str [s]
+  (zip/xml-zip 
+      (xml/parse (java.io.ByteArrayInputStream. (.getBytes s)))))
+
+(def isbn-ranges (zip-str (slurp "./data/RangeMessage.xml")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PUBLIC FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -72,3 +80,17 @@
     (check-digit-correct? isbn)
     (length-correct? isbn)
     (no-erroneous-chars? isbn)))
+
+(defn isbn10->isbn13
+  "Takes an ISBN 10 code and returns a corresponding ISBN 13
+  In: string, out: string"
+  [isbn10]
+  (let [firstchars (apply str "978" (take 9 (normalize isbn10)))]
+    (str firstchars (isbn13-checkdigit firstchars))))
+
+(defn hyphenate
+  "Takes an ISBN, returns it with hyphens added
+  In: string, out: string"
+  [isbn]
+  isbn)
+
