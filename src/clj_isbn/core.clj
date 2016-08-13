@@ -1,7 +1,6 @@
 (ns clj-isbn.core
   (require [clojure.xml :as xml]
-           [clojure.zip :as zip])
-  (:gen-class))
+           [clojure.zip :as zip]))
 
 (defn- normalize [isbn]
   (apply str (filter #(or (Character/isDigit %) (= \X %)) isbn)))
