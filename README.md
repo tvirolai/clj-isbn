@@ -1,10 +1,12 @@
 # clj-isbn
 
+[![Clojars Project](https://img.shields.io/clojars/v/clj-isbn.svg)](https://clojars.org/clj-isbn)
+
 A simple ISBN utility library for Clojure.
 
 ## Installation
 
-clj-isbn is available from [Clojars](https://clojars.org/clj-isbn).
+clj-isbn is hosted in [Clojars](https://clojars.org/clj-isbn).
 
 Using Leiningen, add clj-isbn as a dependency to your project's project.clj:
 
