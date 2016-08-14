@@ -100,7 +100,7 @@
       (if (= 10 digit) 0 digit))))
 
 (defn check-digit-correct?
-  "Takes and ISBN and checks its validity by the check digit
+  "Takes an ISBN and checks its validity by the check digit
    In: string, out: boolean"
   [isbn]
   (let [isbn (normalize isbn)]
@@ -141,47 +141,24 @@
   (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
     (last (find (get-data isbn) "name"))))
 
-(defn hyphenate
-  "Takes an ISBN, returns it with hyphens added
-  In: string, out: string"
-  [isbn]
-  (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
-    (let [prefix (get-prefix isbn) 
-          ranges (last (get-ranges isbn))
-          isbn-body (apply str (drop-last (drop (dec (count prefix)) isbn)))
-          check-digit (last isbn)]
-      ; Determine the registrant element
-      (let [reglength 
-            (count (str
-              (loop [i 0]
-                (let [beg (stringToInt (first (get ranges i)))
-                      end (stringToInt (last (get ranges i)))
-                      len (count (first (get ranges i)))
-                      area (stringToInt (subs isbn-body 0 (inc len)))]
-                  (if (<= beg area end) area (recur (inc i)))))))]
-        (let [registrant-element (subs isbn-body 0 reglength)]
-          registrant-element)))))
-
 (defn get-registrant-element
-  "Takes an ISBN, returns the lenght of the registrant element
+  "Takes an ISBN, returns the registrant element.
   In: string, out: string"
   [isbn]
   (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
     (let [prefix (get-prefix isbn) 
           ranges (last (get-ranges isbn))
           isbn-body (apply str (drop-last (drop (dec (count prefix)) isbn)))]
-          ; Determine the registrant element
           (loop [i 0]
             (let [beg (stringToInt (first (get ranges i)))
                   end (stringToInt (last (get ranges i)))
                   len (count (last (get ranges i)))
-                  area (stringToInt (subs isbn-body 0 len))
-                  values (str beg " " end " " len " " area)]
-              ;(println values "\n" ranges)
+                  area (stringToInt (subs isbn-body 0 len))]
               (if (<= beg area end) (subs isbn-body 0 len) (recur (inc i))))))))
 
 (defn get-publication-element
-  ""
+  "Extracts the publication element from and ISBN.
+  In: string, out: string"
   [isbn]
   (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
     (let [prefix (normalize (get-prefix isbn))
@@ -190,12 +167,14 @@
       (string-drop (count reg-element) isbn-body))))
 
 (defn get-checkdigit
-  ""
+  "Extracts the check digit from an ISBN.
+  In: string, out: string"
   [isbn]
   (str (last isbn)))
 
 (defn hyphenate-isbn13
-  ""
+  "Hyphenates an ISBN-13 code
+  In: string, out: string"
   [isbn]
   (str 
     (get-prefix isbn) "-" 
@@ -204,7 +183,8 @@
     (get-checkdigit isbn)))
 
 (defn hyphenate-isbn10
-  ""
+  "Hyphenates an ISBN-10 code
+  In: string, out: string"
   [isbn]
   (let [fullprefix (get-prefix (isbn10->isbn13 isbn))]
     (let [isbn10-prefix (last (str/split fullprefix #"-"))]
@@ -214,6 +194,7 @@
            (get-checkdigit isbn)))))
 
 (defn hyphenate
-  ""
+  "Takes an ISBN code and returns a hyphenated version of it
+  In: string, out: string"
   [isbn]
   (if (isbn10? isbn) (hyphenate-isbn10 isbn) (hyphenate-isbn13 isbn)))
