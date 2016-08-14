@@ -1,4 +1,4 @@
-(defproject clj-isbn "0.1.0"
+(defproject clj-isbn "0.0.1"
   :description "An ISBN utility library"
   :url "https://github.com/tvirolai/clj-isbn"
   :license {:name "Eclipse Public License"

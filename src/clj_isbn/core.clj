@@ -22,12 +22,6 @@
   [isbn]
   (length-correct? (normalize isbn)))
 
-(defn- zip-str [s]
-  (zip/xml-zip 
-      (xml/parse (java.io.ByteArrayInputStream. (.getBytes s)))))
-
-(def isbn-ranges (zip-str (slurp "./data/RangeMessage.xml")))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PUBLIC FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

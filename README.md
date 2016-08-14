@@ -1,20 +1,29 @@
 # clj-isbn
 
-A simple ISBN utility library for Clojure. 
+A simple ISBN utility library for Clojure.
 
 ## Installation
+
+clj-isbn is available from [Clojars](https://clojars.org/clj-isbn).
 
 Using Leiningen, add clj-isbn as a dependency to your project's project.clj:
 
 ```clojure
-[clj-isbn "0.1.0-SNAPSHOT"]
+[clj-isbn "0.0.1"]
 ```
 
 Then require it into your namespace:
 
 ```clojure
 (ns foo.bar
- (require [clj-isbn :as isbn]))
+ (require [clj-isbn.core :as isbn]))
+```
+
+or
+
+```clojure
+(ns foo.bar
+ (require [clj-isbn.core :refer :all]))
 ```
 
 ## Usage
