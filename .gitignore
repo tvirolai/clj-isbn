@@ -4,6 +4,7 @@
 ./data/*
 pom.xml
 pom.xml.asc
+*.out
 *.jar
 *.class
 /.lein-*
