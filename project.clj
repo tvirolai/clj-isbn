@@ -1,8 +1,7 @@
-(defproject clj-isbn "0.0.1"
+(defproject clj-isbn "0.0.2"
   :description "An ISBN utility library"
   :url "https://github.com/tvirolai/clj-isbn"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]]
-  :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/data.json "0.2.6"]])

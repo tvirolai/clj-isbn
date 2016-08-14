@@ -11,7 +11,7 @@ clj-isbn is hosted in [Clojars](https://clojars.org/clj-isbn).
 Using Leiningen, add clj-isbn as a dependency to your project's project.clj:
 
 ```clojure
-[clj-isbn "0.0.1"]
+[clj-isbn "0.0.2"]
 ```
 
 Then require it into your namespace:
@@ -44,6 +44,14 @@ To convert an ISBN-10 to ISBN-13:
 ; "9788535902778"
 ```
 
+And vice versa:
+
+```clojure
+(isbn/isbn13->isbn10 "978-91-501-1334-1")
+; "9150113348"
+```
+
+
 To calculate check digits:
 
 ```clojure
@@ -51,6 +59,13 @@ To calculate check digits:
 ; 5
 (isbn/isbn13-checkdigit "978-951-98548-9")
 ; 2
+```
+
+To get the publisher zone:
+
+```clojure
+(isbn/publisher-zone "978-91-501-1334-1")
+; "Sweden"
 ```
 
 TODO: ISBN hyphenation.

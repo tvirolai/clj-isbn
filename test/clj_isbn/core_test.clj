@@ -4,7 +4,9 @@
 
 (deftest conversion
   (testing "ISBN-10 -> ISBN-13 conversion"
-   (is (= "9780306406157" (isbn10->isbn13 "0-306-40615-2")))))
+   (is (= "9780306406157" (isbn10->isbn13 "0-306-40615-2"))))
+  (testing "ISBN-13 -> ISBN-13 conversion"
+    (is (= "9520102817" (isbn13->isbn10 "978-952-01-0281-4")))))
 
 (deftest validation
   (testing "A valid ISBN should pass"
