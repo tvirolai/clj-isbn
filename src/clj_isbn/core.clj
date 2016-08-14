@@ -1,11 +1,11 @@
-(ns clj-isbn.core
+(ns clj-isbn.core 
   (require [clojure.data.json :as json]
            [clojure.string :as str]))
 
 (def ^:private data 
   "A (pretty huge) hashmap containing data about registration groups.
   Used for code hyphenation."
-  (json/read-str (slurp "./data/data.json")))
+  (json/read-str (slurp "ranges.json")))
 
 (defn- normalize [isbn]
   (apply str (filter #(or (Character/isDigit %) (= \X %)) isbn)))
@@ -24,7 +24,7 @@
   (contains? #{10 13 17} (count isbn)))
 
 (defn- isbn10?
-  ""
+  "Determines if the ISBN received as input is ISBN-10"
   [isbn]
   (= 10 (count (normalize isbn))))
 
