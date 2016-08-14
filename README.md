@@ -51,6 +51,14 @@ And vice versa:
 ; "9150113348"
 ```
 
+The conversion functions return the new ISBN codes without hyphens. You have to call hyphenation function separately if you need them:
+
+```clojure
+(isbn/hyphenate "9783799591232")
+; "978-3-7995-9123-2"
+(isbn/hyphenate (isbn/isbn10->isbn13 "097961631X"))
+; "978-0-9796163-1-0"
+```
 
 To calculate check digits:
 
@@ -68,4 +76,15 @@ To get the publisher zone:
 ; "Sweden"
 ```
 
-TODO: ISBN hyphenation.
+It is also possible to extract the different components of an ISBN code:
+
+```clojure
+(isbn/get-prefix "9789529351787")
+; "978-952"
+(isbn/get-registrant-element "9789529351787")
+; "93"
+(isbn/get-publication-element "9789529351787")
+; "5178"
+(isbn/get-checkdigit "9789529351787")
+; "7"
+```
