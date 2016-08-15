@@ -12,7 +12,7 @@ clj-isbn is hosted in [Clojars](https://clojars.org/clj-isbn).
 Using Leiningen, add clj-isbn as a dependency to your project's project.clj:
 
 ```clojure
-[clj-isbn "0.0.6"]
+[clj-isbn "0.0.7"]
 ```
 
 Then require it into your namespace:
