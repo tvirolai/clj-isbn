@@ -1,8 +1,9 @@
 # clj-isbn
 
 [![Clojars Project](https://img.shields.io/clojars/v/clj-isbn.svg)](https://clojars.org/clj-isbn)
+[![Build Status](https://travis-ci.org/tvirolai/clj-isbn.svg?branch=master)](https://travis-ci.org/tvirolai/clj-isbn)
 
-An ISBN utility library for Clojure.
+A simple ISBN utility library for Clojure.
 
 ## Installation
 
@@ -11,7 +12,7 @@ clj-isbn is hosted in [Clojars](https://clojars.org/clj-isbn).
 Using Leiningen, add clj-isbn as a dependency to your project's project.clj:
 
 ```clojure
-[clj-isbn "0.0.7"]
+[clj-isbn "0.0.6"]
 ```
 
 Then require it into your namespace:
@@ -89,7 +90,7 @@ It is also possible to extract the different components of an ISBN code:
 ; "7"
 ```
 
-If the conversion, hyphenation or checksum calculation functions are fed an invalid value, a nil value is returned.
+If the conversion, hyphenation or checksum calculation functions are fed an invalid value, nil value is returned.
 
 ```clojure
 (isbn/publisher-zone "9783799591232")
