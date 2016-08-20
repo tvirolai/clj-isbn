@@ -1,6 +1,6 @@
 (ns clj-isbn.core 
-  (require [clojure.string :as str]
-           [clj-isbn.data :as d]))
+  (:require [clojure.string :as str]
+            [clj-isbn.data :as d]))
 
 (def ^:private data 
   "A (pretty huge) hashmap containing data about registration groups.
