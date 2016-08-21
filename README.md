@@ -19,14 +19,14 @@ Then require it into your namespace:
 
 ```clojure
 (ns foo.bar
- (require [clj-isbn.core :as isbn]))
+ (:require [clj-isbn.core :as isbn]))
 ```
 
 or
 
 ```clojure
 (ns foo.bar
- (require [clj-isbn.core :refer :all]))
+ (:require [clj-isbn.core :refer :all]))
 ```
 
 ## Usage
