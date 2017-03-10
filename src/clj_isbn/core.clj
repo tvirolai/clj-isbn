@@ -1,8 +1,8 @@
-(ns clj-isbn.core 
+(ns clj-isbn.core
   (:require [clojure.string :as str]
             [clj-isbn.data :as d]))
 
-(def ^:private data 
+(def ^:private data
   "A (pretty huge) hashmap containing data about registration groups.
   Used for code hyphenation."
   d/data)
@@ -70,7 +70,7 @@
 ;; PUBLIC FUNCTIONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn isbn10-checkdigit 
+(defn isbn10-checkdigit
   "Takes an ISBN 10 code as string, returns the check digit
    In: string, out: integer (or string, if the digit is 'X')"
   [isbn]
@@ -86,16 +86,16 @@
 
 (defn isbn13-checkdigit
   "Takes an ISBN 13 code as string, returns the check digit
-   In: string, out: integer" 
+   In: string, out: integer"
   [isbn]
   (when (<= 11 (count (normalize isbn)) 13)
     (let [nsum
       (->> isbn
            (normalize)
            (take 12)
-           (map-indexed 
-             (fn [idx itm] 
-               (let [itm (charToInt itm)] 
+           (map-indexed
+             (fn [idx itm]
+               (let [itm (charToInt itm)]
                  (if (odd? idx) (* itm 3) itm))))
            (reduce +))]
       (let [digit (- 10 (mod nsum 10))]
@@ -106,19 +106,19 @@
    In: string, out: boolean"
   [isbn]
   (let [isbn (normalize isbn)]
-    (let [digit 
+    (let [digit
           (str
-            (if (= (count isbn) 10) 
+            (if (= (count isbn) 10)
               (isbn10-checkdigit isbn)
               (isbn13-checkdigit isbn)))]
       (= digit (str (last isbn))))))
 
 (defn is-valid?
-  "Takes and ISBN and checks its validity by 
+  "Takes and ISBN and checks its validity by
   checking the check digit, length and characters.
   In: string, out: boolean"
   [isbn]
-  (and 
+  (and
     (check-digit-correct? isbn)
     (length-correct? isbn)
     (no-erroneous-chars? isbn)))
@@ -153,7 +153,7 @@
   [isbn]
   (when (is-valid? (normalize isbn))
     (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
-      (let [prefix (get-prefix isbn) 
+      (let [prefix (get-prefix isbn)
             ranges (last (get-ranges isbn))
             isbn-body (apply str (drop-last (drop (dec (count prefix)) isbn)))]
             (loop [i 0]
@@ -186,9 +186,9 @@
   In: string, out: string"
   [isbn]
   (when (is-valid? (normalize isbn))
-    (str 
-      (get-prefix isbn) "-" 
-      (get-registrant-element isbn) "-" 
+    (str
+      (get-prefix isbn) "-"
+      (get-registrant-element isbn) "-"
       (get-publication-element isbn) "-"
       (get-checkdigit isbn))))
 
@@ -199,7 +199,7 @@
   (when (is-valid? (normalize isbn))
     (let [fullprefix (get-prefix (isbn10->isbn13 isbn))]
       (let [isbn10-prefix (last (str/split fullprefix #"-"))]
-        (str isbn10-prefix "-" 
+        (str isbn10-prefix "-"
              (get-registrant-element isbn) "-"
              (get-publication-element isbn) "-"
              (get-checkdigit isbn))))))
@@ -209,3 +209,10 @@
   In: string, out: string"
   [isbn]
   (if (isbn10? isbn) (hyphenate-isbn10 isbn) (hyphenate-isbn13 isbn)))
+
+(defn correctly-hyphenated?
+  "Checks whether an ISBN code is correctly hyphenated. If the
+  input is not hyphenated, that counts as no.
+  In: string, out: boolean."
+  [isbn]
+  (= isbn (hyphenate isbn)))
