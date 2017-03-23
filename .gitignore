@@ -2,6 +2,7 @@
 /classes
 /checkouts
 ./data/*
+/.idea/*
 pom.xml
 pom.xml.asc
 *.out

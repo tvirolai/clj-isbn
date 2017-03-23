@@ -34,7 +34,9 @@
     (is (= "978-3-7995-9123-2" (hyphenate "9783799591232")))
     (is (= nil (hyphenate "9783799591235")))
     (is (= nil (hyphenate "YO BABEZ!")))
-    (is (= "3-7995-9123-0" (hyphenate "3799591230")))))
+    (is (= "3-7995-9123-0" (hyphenate "3799591230")))
+    (is (= true (correctly-hyphenated? "978-952-68574-1-1")))
+    (is (= false (correctly-hyphenated? "9781472465689")))))
 
 (deftest publisherzone
   (testing "Publisher zone function"
