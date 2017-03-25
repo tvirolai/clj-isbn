@@ -57,7 +57,7 @@ And vice versa:
 => "9150113348"
 ```
 
-The conversion functions return the new ISBN codes without hyphens. You have to call hyphenation function separately if you need them:
+The conversion functions return the new ISBN codes without hyphens. You have to call the hyphenation function separately if you need them:
 
 ```clojure
 (isbn/hyphenate "9783799591232")
