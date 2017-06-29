@@ -5,8 +5,13 @@
 /.idea/*
 pom.xml
 pom.xml.asc
+<<<<<<< HEAD
 .project
 .classpath
+=======
+*.iml
+*.xml
+>>>>>>> 4a9ff778b36b05e7ff52378b781be66bad8ca582
 *.out
 *.jar
 *.class

@@ -3,10 +3,12 @@
 [![Clojars Project](https://img.shields.io/clojars/v/clj-isbn.svg)](https://clojars.org/clj-isbn)
 [![Build Status](https://travis-ci.org/tvirolai/clj-isbn.svg?branch=master)](https://travis-ci.org/tvirolai/clj-isbn)
 [![Downloads](https://jarkeeper.com/tvirolai/clj-isbn/downloads.svg)](https://jarkeeper.com/tvirolai/clj-isbn)
-
-[![Clojars Project](http://clojars.org/clj-isbn/latest-version.svg)](http://clojars.org/clj-isbn)
+[![codecov](https://codecov.io/gh/tvirolai/clj-isbn/branch/master/graph/badge.svg)](https://codecov.io/gh/tvirolai/clj-isbn)
 
 A simple ISBN utility library for Clojure.
+
+## Latest version
+[![Clojars Project](http://clojars.org/clj-isbn/latest-version.svg)](http://clojars.org/clj-isbn)
 
 ## Installation
 
@@ -55,7 +57,7 @@ And vice versa:
 => "9150113348"
 ```
 
-The conversion functions return the new ISBN codes without hyphens. You have to call hyphenation function separately if you need them:
+The conversion functions return the new ISBN codes without hyphens. You have to call the hyphenation function separately if you need them:
 
 ```clojure
 (isbn/hyphenate "9783799591232")
