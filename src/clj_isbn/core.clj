@@ -8,7 +8,7 @@
   d/data)
 
 (defn- normalize [isbn]
-  (apply str (filter #(or (Character/isDigit %) (= \X %)) isbn)))
+  (str/join (filter #(or (Character/isDigit %) (= \X %)) isbn)))
 
 (defn- charToInt [c]
   (if (= c \X) 10
@@ -37,11 +37,11 @@
 
 (defn- string-take
   [amount string]
-  (apply str (take amount string)))
+  (str/join (take amount string)))
 
 (defn- string-drop
   [amount string]
-  (apply str (drop amount string)))
+  (str/join (drop amount string)))
 
 (defn- get-prefix
   "Takes an ISBN-13 and returns the correct prefix.
@@ -136,7 +136,7 @@
   In: string, out: string"
   [isbn13]
   (when (is-valid? (normalize isbn13))
-    (let [firstchars (apply str (take 9 (drop 3 (normalize isbn13))))]
+    (let [firstchars (str/join (take 9 (drop 3 (normalize isbn13))))]
       (str firstchars (isbn10-checkdigit firstchars)))))
 
 (defn publisher-zone
@@ -155,7 +155,7 @@
     (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
       (let [prefix (get-prefix isbn)
             ranges (last (get-ranges isbn))
-            isbn-body (apply str (drop-last (drop (dec (count prefix)) isbn)))]
+            isbn-body (->> isbn (drop (dec (count prefix))) drop-last str/join)]
             (loop [i 0]
               (let [beg (stringToInt (first (get ranges i)))
                     end (stringToInt (last (get ranges i)))
@@ -170,7 +170,7 @@
   (when (is-valid? (normalize isbn))
     (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
       (let [prefix (normalize (get-prefix isbn))
-            isbn-body (apply str (drop-last (drop (count prefix) isbn)))
+            isbn-body (->> isbn (drop (count prefix)) drop-last str/join)
             reg-element (get-registrant-element isbn)]
         (string-drop (count reg-element) isbn-body)))))
 

@@ -1,0 +1,2 @@
+cmdhistory=["(+ 1 1)" "(is-valid? \\"978-952-495-210-1\\")" "(publisher-zone \\"978-952-495-210-1\\")" "(is-valid? \\"978-3-631-65773-7\\")" "(publisher-zone \\"978-3-631-65773-7\\")" "(publisher-zone \\"9781844037933\\")" "(is-valid? \\"9781844037933\\")" "(hyphenate \\"9781844037933\\")" "(publisher-zone \\"88-222-4682-9\\")" "(publisher-zone \\"960-04-0526-3\\")" "(publisher-zone \\"960-04-0082-2\\")" "(+ 1 1)" "(isbn10? \\"moi\\")" "(hyphenation-correct? \\"978-952-93-7856-2\\")" "(publisher-zone \\"978-952-93-7856-2\\")" "(jeppis)"]
+eclipse.preferences.version=1
