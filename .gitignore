@@ -5,6 +5,8 @@
 /.idea/*
 pom.xml
 pom.xml.asc
+.project
+.classpath
 *.out
 *.jar
 *.class
