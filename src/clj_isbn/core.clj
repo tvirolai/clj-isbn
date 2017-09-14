@@ -1,21 +1,16 @@
 (ns clj-isbn.core
-  (:require [clojure.string :as str]
+  (:require [clojure.string :as s]
             [clj-isbn.data :as d]))
 
 (def ^:private data
-  "A (pretty huge) hashmap containing data about registration groups.
-  Used for code hyphenation."
+  "A hashmap containing data about registration groups,
+  publisher zones and the like."
   d/data)
 
 (defn- normalize [isbn]
-  (str/join (filter #(or (Character/isDigit %) (= \X %)) isbn)))
-
-(defn- charToInt [c]
-  (if (= c \X) 10
-    (Character/digit c 10)))
-
-(defn- stringToInt [string]
-  (Integer. string))
+  (->> isbn
+       (filter #(or (Character/isDigit %) (= \X %)))
+       s/join))
 
 (defn- length-correct?
   "Takes an ISBN and checks that its length is correct.
@@ -37,11 +32,11 @@
 
 (defn- string-take
   [amount string]
-  (str/join (take amount string)))
+  (s/join (take amount string)))
 
 (defn- string-drop
   [amount string]
-  (str/join (drop amount string)))
+  (s/join (drop amount string)))
 
 (defn- get-prefix
   "Takes an ISBN-13 and returns the correct prefix.
@@ -79,7 +74,7 @@
       (->> isbn
            (normalize)
            (take 9)
-           (map-indexed (fn [idx itm] (* (- 10 idx) (charToInt itm))))
+           (map-indexed (fn [idx itm] (* (- 10 idx) (Character/digit itm 10))))
            (reduce +))]
       (let [digit (mod (- 11 (mod nsum 11)) 11)]
         (if (= 10 digit) "X" digit)))))
@@ -95,7 +90,7 @@
            (take 12)
            (map-indexed
              (fn [idx itm]
-               (let [itm (charToInt itm)]
+               (let [itm (Character/digit itm 10)]
                  (if (odd? idx) (* itm 3) itm))))
            (reduce +))]
       (let [digit (- 10 (mod nsum 10))]
@@ -136,7 +131,7 @@
   In: string, out: string"
   [isbn13]
   (when (is-valid? (normalize isbn13))
-    (let [firstchars (str/join (take 9 (drop 3 (normalize isbn13))))]
+    (let [firstchars (s/join (take 9 (drop 3 (normalize isbn13))))]
       (str firstchars (isbn10-checkdigit firstchars)))))
 
 (defn publisher-zone
@@ -144,8 +139,8 @@
   In: string, out: string."
   [isbn]
   (when (is-valid? (normalize isbn))
-    (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
-      (last (find (get-data isbn) "name")))))
+    (let [parsed-isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
+      (last (find (get-data parsed-isbn) "name")))))
 
 (defn get-registrant-element
   "Takes an ISBN, returns the registrant element.
@@ -155,12 +150,12 @@
     (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
       (let [prefix (get-prefix isbn)
             ranges (last (get-ranges isbn))
-            isbn-body (->> isbn (drop (dec (count prefix))) drop-last str/join)]
+            isbn-body (->> isbn (drop (dec (count prefix))) drop-last s/join)]
             (loop [i 0]
-              (let [beg (stringToInt (first (get ranges i)))
-                    end (stringToInt (last (get ranges i)))
+              (let [beg (Integer. (first (get ranges i)))
+                    end (Integer. (last (get ranges i)))
                     len (count (last (get ranges i)))
-                    area (stringToInt (subs isbn-body 0 len))]
+                    area (Integer. (subs isbn-body 0 len))]
                 (if (<= beg area end) (subs isbn-body 0 len) (recur (inc i)))))))))
 
 (defn get-publication-element
@@ -170,7 +165,7 @@
   (when (is-valid? (normalize isbn))
     (let [isbn (if (isbn10? isbn) (isbn10->isbn13 isbn) (normalize isbn))]
       (let [prefix (normalize (get-prefix isbn))
-            isbn-body (->> isbn (drop (count prefix)) drop-last str/join)
+            isbn-body (->> isbn (drop (count prefix)) drop-last s/join)
             reg-element (get-registrant-element isbn)]
         (string-drop (count reg-element) isbn-body)))))
 
@@ -198,7 +193,7 @@
   [isbn]
   (when (is-valid? (normalize isbn))
     (let [fullprefix (get-prefix (isbn10->isbn13 isbn))]
-      (let [isbn10-prefix (last (str/split fullprefix #"-"))]
+      (let [isbn10-prefix (last (s/split fullprefix #"-"))]
         (str isbn10-prefix "-"
              (get-registrant-element isbn) "-"
              (get-publication-element isbn) "-"

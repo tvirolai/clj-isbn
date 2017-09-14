@@ -19,7 +19,8 @@
 
 (deftest check-digits
   (testing "ISBN-10 check digit generation"
-    (is (= 9 (isbn10-checkdigit "951-23-2078"))))
+    (is (= 9 (isbn10-checkdigit "951-23-2078")))
+    (is (= "X" (isbn10-checkdigit "097961631X"))))
   (testing "ISBN-13 check digit generation"
     (is (= 2 (isbn13-checkdigit "978-951-98548-9"))))
   (testing "ISBN-13 check digit generation"
@@ -41,4 +42,5 @@
 (deftest publisherzone
   (testing "Publisher zone function"
     (is (= "German language" (publisher-zone "9783799591232")))
-    (is (= nil (publisher-zone "97837995911111")))))
+    (is (= "English language" (publisher-zone "097961631X")))
+    (nil? (publisher-zone "97837995911111"))))
