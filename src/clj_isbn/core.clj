@@ -39,16 +39,16 @@
   (s/join (drop amount string)))
 
 (defn- get-prefix
-  "Takes an ISBN-13 and returns the correct prefix.
-  In: string, out: string"
-  [isbn13]
-  (let [isbn (normalize isbn13)]
-    (let [prefix (string-take 3 isbn) body (string-drop 3 isbn)]
-      (loop [seclength 1]
-        (let [searchprefix (str prefix "-" (string-take seclength body))]
-          (if (contains? data searchprefix)
-            searchprefix
-            (recur (inc seclength))))))))
+  ([isbn13]
+   (let [isbn (normalize isbn13)]
+     (get-prefix (string-take 3 isbn)
+                 (string-drop 3 isbn)
+                 1)))
+  ([prefix body seclenght]
+   (let [searchprefix (str prefix "-" (string-take seclenght body))]
+     (if (contains? data searchprefix)
+       searchprefix
+       (recur prefix body (inc seclenght))))))
 
 (defn- get-data
   "Takes an ISBN and fetches range information
