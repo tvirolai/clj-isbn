@@ -156,7 +156,9 @@
                     end (Integer. (last (get ranges i)))
                     len (count (last (get ranges i)))
                     area (Integer. (subs isbn-body 0 len))]
-                (if (<= beg area end) (subs isbn-body 0 len) (recur (inc i)))))))))
+                (if (<= beg area end)
+                  (subs isbn-body 0 len)
+                  (recur (inc i)))))))))
 
 (defn get-publication-element
   "Extracts the publication element from and ISBN.
@@ -181,11 +183,10 @@
   In: string, out: string"
   [isbn]
   (when (is-valid? (normalize isbn))
-    (str
-      (get-prefix isbn) "-"
-      (get-registrant-element isbn) "-"
-      (get-publication-element isbn) "-"
-      (get-checkdigit isbn))))
+    (s/join "-" (list (get-prefix isbn)
+                      (get-registrant-element isbn)
+                      (get-publication-element isbn)
+                      (get-checkdigit isbn)))))
 
 (defn hyphenate-isbn10
   "Hyphenates an ISBN-10 code
@@ -194,10 +195,10 @@
   (when (is-valid? (normalize isbn))
     (let [fullprefix (get-prefix (isbn10->isbn13 isbn))]
       (let [isbn10-prefix (last (s/split fullprefix #"-"))]
-        (str isbn10-prefix "-"
-             (get-registrant-element isbn) "-"
-             (get-publication-element isbn) "-"
-             (get-checkdigit isbn))))))
+        (s/join "-" (list isbn10-prefix
+                          (get-registrant-element isbn)
+                          (get-publication-element isbn)
+                          (get-checkdigit isbn)))))))
 
 (defn hyphenate
   "Takes an ISBN code and returns a hyphenated version of it
