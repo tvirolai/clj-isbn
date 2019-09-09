@@ -3,5 +3,5 @@
   :url "https://github.com/tvirolai/clj-isbn"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]]
-  :plugins [[lein-cloverage "1.0.9"]])
+  :dependencies [[org.clojure/clojure "RELEASE"]]
+  :plugins [[lein-cloverage "1.1.1"]])

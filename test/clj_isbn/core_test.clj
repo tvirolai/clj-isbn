@@ -11,8 +11,8 @@
 
 (deftest validation
   (testing "A valid ISBN should pass"
-    (is (true? (is-valid? "9780306406157"))))
-    (is (true? (is-valid? "097961631X")))
+    (is (is-valid? "9780306406157")))
+    (is (is-valid? "097961631X"))
   (testing "An invalid ISBN should not pass"
     (is (false? (is-valid? "95Ö-23-2078-9"))))
     (is (false? (is-valid? "951-23-2078-1"))))
@@ -36,7 +36,7 @@
     (is (= nil (hyphenate "9783799591235")))
     (is (= nil (hyphenate "YO BABEZ!")))
     (is (= "3-7995-9123-0" (hyphenate "3799591230")))
-    (is (= true (correctly-hyphenated? "978-952-68574-1-1")))
+    (is (correctly-hyphenated? "978-952-68574-1-1"))
     (is (= false (correctly-hyphenated? "9781472465689")))))
 
 (deftest publisherzone
@@ -44,3 +44,5 @@
     (is (= "German language" (publisher-zone "9783799591232")))
     (is (= "English language" (publisher-zone "097961631X")))
     (nil? (publisher-zone "97837995911111"))))
+
+(run-tests)
