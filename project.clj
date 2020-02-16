@@ -7,3 +7,4 @@
   :deploy-repositories [["clojars" {:url "https://clojars.org/repo"
                                     :sign-releases false}]]
   :plugins [[lein-cloverage "1.1.1"]])
+
